@@ -40,6 +40,7 @@ function getStringLength(value) {
 function isString(value) {
   if (typeof value === 'string') return true;
   if (value instanceof String) return true;
+
   return false;
 }
 
@@ -154,9 +155,11 @@ function repeatString(str, times) {
 function removeFirstOccurrences(str, value) {
   // return str.includes(value) ? str.replace(value, '') : str;
   const indexValue = str.indexOf(value);
+
   if (indexValue !== -1) {
     return str.slice(0, indexValue) + str.slice(indexValue + value.length);
   }
+
   return str;
 }
 
@@ -174,9 +177,11 @@ function removeFirstOccurrences(str, value) {
  */
 function removeLastOccurrences(str, value) {
   const indexValue = str.lastIndexOf(value);
+
   if (indexValue !== -1) {
     return str.slice(0, indexValue) + str.slice(indexValue + value.length);
   }
+
   return str;
 }
 
@@ -194,12 +199,14 @@ function removeLastOccurrences(str, value) {
  */
 function sumOfCodes(str = '') {
   let sumCharCode = 0;
+
   if (str === '' || typeof str !== 'string') {
     return 0;
   }
   for (let i = 0; i < str.length; i += 1) {
     sumCharCode += str.charCodeAt(i);
   }
+
   return sumCharCode;
 }
 
@@ -249,6 +256,7 @@ function endsWith(str, substr) {
 function formatTime(minutes, seconds) {
   const formatMin = minutes.toString().padStart(2, '0');
   const formatSec = seconds.toString().padStart(2, '0');
+
   return `${formatMin}:${formatSec}`;
 }
 
@@ -314,11 +322,13 @@ function containsSubstring(str, substring) {
 function countVowels(str) {
   const vowels = ['a', 'e', 'i', 'o', 'u', 'y'];
   let sumVowels = 0;
+
   for (let i = 0; i < str.length; i += 1) {
     if (vowels.includes(str[i].toLowerCase())) {
       sumVowels += 1;
     }
   }
+
   return sumVowels;
 }
 
@@ -336,8 +346,17 @@ function countVowels(str) {
  *   isPalindrome('No lemon, no melon') => true
  */
 function isPalindrome(str) {
-  const palindrome = str.split('').reverse().join('').toLowerCase();
-  return palindrome === str.toLowerCase();
+  // const palindrome = str.split('').reverse().join('').toLowerCase();
+  // return palindrome === str.toLowerCase();
+  const alphaNumber = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+  for (let i = 0; i < alphaNumber.length / 2; i += 1) {
+    if (alphaNumber[i] !== alphaNumber[alphaNumber.length - 1 - i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 /**
@@ -354,6 +373,7 @@ function isPalindrome(str) {
  */
 function findLongestWord(sentence) {
   const arrWords = sentence.split(' ');
+
   return arrWords.reduce((longWord, current) => {
     return current.length > longWord.length ? current : longWord;
   }, '');
@@ -371,6 +391,7 @@ function findLongestWord(sentence) {
  */
 function reverseWords(str) {
   const arrWords = str.split(' ');
+
   return arrWords.map((word) => word.split('').reverse().join('')).join(' ');
 }
 
@@ -387,6 +408,7 @@ function reverseWords(str) {
  */
 function invertCase(str) {
   const arrWords = str.split('');
+
   return arrWords
     .map((symbol) => {
       return symbol === symbol.toUpperCase()
@@ -426,6 +448,7 @@ function getStringFromTemplate(firstName, lastName) {
 function extractNameFromTemplate(value) {
   const startTemplate = value.replace('Hello,', '');
   const template = startTemplate.replace('!', '');
+
   return template.trim();
 }
 
@@ -443,6 +466,7 @@ function extractNameFromTemplate(value) {
 function unbracketTag(str) {
   const startTemplate = str.replace('<', '');
   const template = startTemplate.replace('>', '');
+
   return template.trim();
 }
 
@@ -481,8 +505,22 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  let encodedString = '';
+
+  for (let i = 0; i < str.length; i += 1) {
+    const charCode = str.charCodeAt(i);
+
+    if (charCode >= 65 && charCode <= 90) {
+      encodedString += String.fromCharCode(((charCode - 65 + 13) % 26) + 65);
+    } else if (charCode >= 97 && charCode <= 122) {
+      encodedString += String.fromCharCode(((charCode - 97 + 13) % 26) + 97);
+    } else {
+      encodedString += str.charAt(i);
+    }
+  }
+
+  return encodedString;
 }
 
 /**
